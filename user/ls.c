@@ -3,8 +3,9 @@
 #include "user/user.h"
 #include "kernel/fs.h"
 
+// 返回一个文件名 并且在后面加空格，因为ls是显示当面目录下的所有的文件并且用空格隔开
 char*
-fmtname(char *path)
+fmtname(char *path) 
 {
   static char buf[DIRSIZ+1];
   char *p;
@@ -54,11 +55,13 @@ ls(char *path)
     strcpy(buf, path);
     p = buf+strlen(buf);
     *p++ = '/';
+    //从目录中读取文件，要么是子目录要么是文件
     while(read(fd, &de, sizeof(de)) == sizeof(de)){
-      if(de.inum == 0)
+      if(de.inum == 0) // 表示的是当前目录？
         continue;
       memmove(p, de.name, DIRSIZ);
       p[DIRSIZ] = 0;
+      // 如果是目录就继续递归
       if(stat(buf, &st) < 0){
         printf("ls: cannot stat %s\n", buf);
         continue;
