@@ -50,6 +50,7 @@ void find(char*path,char*exper)
         }
         memmove(p,de.name,DIRSIZ);// 把当前找到的文件名记录到 p （追加到 buf 后）
         p[DIRSIZ] = 0;// 终止符 0,比如追加的长度是4，但是4的下标其实是没用到的，字符数组的最好一位一定要补0.
+        
         // 通过文件路径得到的文件信息写如到文件结构体st中，如果写入失败（找不到这一项），就读取下一个目录项
         if(stat(buf,&st) < 0)
         {
